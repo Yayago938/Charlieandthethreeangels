@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -31,16 +33,17 @@ export default function Nav() {
             <div className="absolute inset-1.5 bg-neon-green/20 rotate-45 group-hover:bg-neon-green/40 transition-colors duration-300" />
           </div>
           <span className="font-display font-bold text-lg tracking-widest text-white">
-            SENTINEL<span className="text-neon-green">-X</span>
+            Anti<span className="text-neon-green">Kryptos</span>
           </span>
         </Link>
 
         {/* Links */}
         <div className="hidden md:flex items-center gap-8">
           {[
-            { label: "Platform",  href: "/#features" },
-            { label: "Analyzer",  href: "/analyze"   },
-            { label: "About",     href: "/#about"    },
+            { label: "Platform", href: "/#features" },
+            { label: "Analyzer", href: "/analyze"   },
+            { label: "DeepFake Detection",    href: "/deepfake"    },
+            { label: "About",    href: "/#about"    },
           ].map(({ label, href }) => (
             <Link
               key={label}
@@ -57,15 +60,31 @@ export default function Nav() {
         </div>
 
         {/* CTA */}
-        <Link to="/analyze">
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.97 }}
-            className="btn-primary text-xs px-5 py-2"
-          >
-            Launch Analyzer
-          </motion.button>
-        </Link>
+        {user ? (
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs text-slate-500 hidden md:block truncate max-w-[160px]">
+              {user.email}
+            </span>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={logout}
+              className="btn-secondary text-xs px-4 py-2"
+            >
+              Logout
+            </motion.button>
+          </div>
+        ) : (
+          <Link to="/login">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              className="btn-primary text-xs px-5 py-2"
+            >
+              Launch Analyzer
+            </motion.button>
+          </Link>
+        )}
       </div>
     </motion.nav>
   );

@@ -85,9 +85,9 @@ export default function Hero() {
           transition={{ delay: 0.35, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="font-display font-extrabold text-6xl md:text-8xl tracking-tight text-white leading-[0.95] mb-4"
         >
-          SENTINEL
+          Anti
           <span className="block neon-text-green drop-shadow-[0_0_40px_rgba(0,255,136,0.5)]">
-            -X
+            Kryptos
           </span>
         </motion.h1>
 
